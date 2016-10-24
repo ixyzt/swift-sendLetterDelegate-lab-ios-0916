@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol LondonViewControllerDelegate: class {
+    func letterSent(from: LondonViewController, message: String)
+}
+
 class LondonViewController: UIViewController, UITextViewDelegate {
     
     // View elements
@@ -15,6 +19,8 @@ class LondonViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var letterHeaderLabel: UILabel!
     @IBOutlet weak var containerViewCenterYConstraint: NSLayoutConstraint!
     @IBOutlet weak var sendButton: UIButton!
+    
+    weak var delegate: LondonViewControllerDelegate?
     
     // Constraints for animation
     @IBOutlet weak var letterTextViewCenterXConstraint: NSLayoutConstraint!
@@ -37,6 +43,8 @@ class LondonViewController: UIViewController, UITextViewDelegate {
     // MARK: Actions
     
     @IBAction func sendButtonTapped(_ sender: UIButton) {
+        
+        delegate?.letterSent(from: self, message: letterTextView.text)
         
         animateLetter {
             self.dismiss(animated: true, completion: nil)
